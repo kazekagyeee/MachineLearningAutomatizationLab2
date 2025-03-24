@@ -37,7 +37,7 @@ echo "Виртуальное окружение создано и активир
 if [ -f "requirements.txt" ]; then
     echo "Установка библиотек из requirements.txt..."
     pip install --upgrade pip
-    pip install -r requirements.txt
+    pip install -r requirements.txt --break-system-packages
 else
     echo "Файл requirements.txt не найден. Пропуск установки библиотек."
 fi
