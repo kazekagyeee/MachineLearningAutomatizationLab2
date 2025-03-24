@@ -1,32 +1,5 @@
 #!/bin/bash
 
-# Проверка, что скрипт выполняется в Linux
-if [[ "$(uname)" == "Linux" ]]; then
-    # 1. Проверка установки Python 3.12 и установка, если его нет
-    echo "Проверка наличия Python 3.12..."
-    if command -v python3.12 &>/dev/null; then
-        echo "Python 3.12 уже установлен."
-    else
-        echo "Python 3.12 не найден. Установка Python 3.12..."
-        # Для Ubuntu/Debian (может потребоваться sudo)
-        sudo apt update
-        sudo apt install -y build-essential libssl-dev zlib1g-dev \
-            libncurses5-dev libgdbm-dev libnss3-dev libsqlite3-dev \
-            libreadline-dev libffi-dev curl libbz2-dev
-        curl https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz > Python-3.12.0.tgz
-        tar -xf Python-3.12.0.tgz
-        cd Python-3.12.0
-        ./configure --enable-optimizations
-        make -j$(nproc)
-        sudo make altinstall
-        cd ..
-        rm -rf Python-3.12.0 Python-3.12.0.tgz
-        echo "Python 3.12 установлен."
-    fi
-else
-    echo "Скрипт выполняется не в Linux. Пропуск установки Python 3.12."
-fi
-
 # 2. Создание и активация виртуального окружения
 echo "Создание виртуального окружения..."
 python3 -m venv venv
