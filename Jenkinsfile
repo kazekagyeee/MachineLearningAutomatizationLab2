@@ -20,18 +20,11 @@ pipeline {
                     if (sh(script: 'command -v python3.12', returnStatus: true) != 0) {
                         echo "Python ${PYTHON_VERSION} не найден. Установка..."
                         sh '''
-                            apt-get update
-                            apt-get install -y build-essential libssl-dev zlib1g-dev \
-                                libncurses5-dev libgdbm-dev libnss3-dev libsqlite3-dev \
-                                libreadline-dev libffi-dev curl libbz2-dev
-                            curl https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz > Python-3.12.0.tgz
-                            tar -xf Python-3.12.0.tgz
-                            cd Python-3.12.0
-                            ./configure --enable-optimizations
-                            make -j$(nproc)
-                            sudo make altinstall
-                            cd ..
-                            rm -rf Python-3.12.0 Python-3.12.0.tgz
+                            apt update
+                            apt install -y software-properties-common
+                            add-apt-repository ppa:deadsnakes/ppa -y
+                            apt update
+                            apt install -y python3.12 python3.12-venv
                         '''
                     } else {
                         echo "Python ${PYTHON_VERSION} уже установлен."
