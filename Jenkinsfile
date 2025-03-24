@@ -21,10 +21,21 @@ pipeline {
                         echo "Python ${PYTHON_VERSION} не найден. Установка..."
                         sh '''
                             apt update
-                            apt install -y software-properties-common
-                            add-apt-repository ppa:deadsnakes/ppa -y
-                            apt update
-                            apt install -y python3.12 python3.12-venv
+                            apt install -y make build-essential libssl-dev zlib1g-dev \
+                                libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+                                libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+
+                            # Установка pyenv
+                            curl https://pyenv.run | bash
+
+                            # Добавление pyenv в PATH
+                            export PATH="$HOME/.pyenv/bin:$PATH"
+                            eval "$(pyenv init --path)"
+                            eval "$(pyenv virtualenv-init -)"
+
+                            # Установка Python 3.12
+                            pyenv install 3.12.0
+                            pyenv global 3.12.0
                         '''
                     } else {
                         echo "Python ${PYTHON_VERSION} уже установлен."
